@@ -120,19 +120,28 @@ def save_config(cfg):
     except Exception as e:
         print(f"Warning: could not save config: {e}", file=sys.stderr)
 
-def send_udp(ip, payload, timeout=1.5):
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.settimeout(timeout)
-    try:
-        sock.sendto(json.dumps(payload).encode("utf-8"), (ip, UDP_PORT))
-        data, _ = sock.recvfrom(2048)
-        return json.loads(data.decode("utf-8"))
-    except socket.timeout:
-        return None
-    except Exception:
-        return None
-    finally:
-        sock.close()
+def send_udp(ip, payload, timeout=0.6, retries=3):
+    """
+    Sends UDP JSON-RPC packet to WiZ bulb with automatic retries.
+    WiZ/ESP chips enter Wi-Fi DTIM sleep when idle; retrying ensures the
+    first packet wakes the radio and the second packet succeeds without failing.
+    """
+    encoded = json.dumps(payload).encode("utf-8")
+    for attempt in range(retries):
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.settimeout(timeout)
+        try:
+            sock.sendto(encoded, (ip, UDP_PORT))
+            data, _ = sock.recvfrom(2048)
+            return json.loads(data.decode("utf-8"))
+        except socket.timeout:
+            time.sleep(0.08)
+            continue
+        except Exception:
+            return None
+        finally:
+            sock.close()
+    return None
 
 def build_pilot_payload(params):
     return {"method": "setPilot", "params": params}
