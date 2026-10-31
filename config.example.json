@@ -1,0 +1,35 @@
+{
+  "default_target": "yash",
+  "bulbs": {
+    "lamp": {
+      "name": "Room Lamp",
+      "owner": "Yash",
+      "room": "Bedroom",
+      "type": "A60 RGBW Color",
+      "ip": "192.168.1.6",
+      "mac": "9877d564d590",
+      "module": "ESP25_SHRGB_01",
+      "fwVersion": "1.38.0"
+    },
+    "yash": {
+      "name": "Room Main Light",
+      "owner": "Yash",
+      "room": "Bedroom",
+      "type": "Tunable White T-Bulb",
+      "ip": "192.168.1.17",
+      "mac": "9877d5b65b60",
+      "module": "ESP25_SHTW_01",
+      "fwVersion": "1.39.0"
+    },
+    "friend": {
+      "name": "Second Room Light",
+      "owner": "Friend",
+      "room": "Guest Room",
+      "type": "Tunable White T-Bulb",
+      "ip": "192.168.1.16",
+      "mac": "d8a011c074ef",
+      "module": "ESP01_SHTW1C_31",
+      "fwVersion": "1.35.0"
+    }
+  }
+}
