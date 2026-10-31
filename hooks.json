@@ -1,0 +1,28 @@
+{
+  "ambient-lamp-signaling": {
+    "PreToolUse": [
+      {
+        "matcher": "ask_question|run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/yashdeepraj/.agents/skills/wiz-bulb/hook_handler.py pre_tool",
+            "timeout": 3
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "ask_question|run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/yashdeepraj/.agents/skills/wiz-bulb/hook_handler.py post_tool",
+            "timeout": 3
+          }
+        ]
+      }
+    ]
+  }
+}
